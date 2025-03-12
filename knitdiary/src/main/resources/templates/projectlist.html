@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Server Programming</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+
+<body>
+    <h1>Knitting projects</h1>
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Pattern</th>
+            <th>Category</th>
+            <th>Size</th>
+            <th>Needles</th>
+            <th>Image</th>
+            <th>Notes</th>
+            <th>Yarns</th>
+        </tr>
+        <tr th:each="project : ${projects}">
+            <td th:text="${project.name}"></td>
+            <td th:text="${project.pattern.name}"></td>
+            <td th:text="${project.category.name}"></td>
+            <td th:text="${project.size}"></td>
+            <td th:text="${project.needles}"></td>
+            <td th:text="${project.image}"></td>
+            <td th:text="${project.notes}"></td>
+            <td th:each="yarn : ${project.projectYarns}">
+                <span th:text="${yarn.name} + ' (' + ${yarn.brand} + ', ' + ${yarn.color} + ')'"></span>
+            </td>
+
+
+        </tr>
+    </table>
+</body>
+
+</html>

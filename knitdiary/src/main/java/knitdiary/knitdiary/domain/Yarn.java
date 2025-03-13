@@ -24,19 +24,20 @@ public class Yarn {
     private String brand;
     private String color;
 
-    @ManyToOne
-    @JoinColumn(name = "weightId")
-    private Weight weight;
+    // Added maybe later
+    // @ManyToOne
+    // @JoinColumn(name = "weightId")
+    // private Weight weight;
 
     public Yarn() {
 
     }
 
-    public Yarn(String name, String brand, String color, Weight weight) {
+    public Yarn(String name, String brand, String color) {
         this.name = name;
         this.brand = brand;
         this.color = color;
-        this.weight = weight;
+
     }
 
     public Long getYarnId() {
@@ -69,14 +70,6 @@ public class Yarn {
 
     public void setColor(String color) {
         this.color = color;
-    }
-
-    public Weight getWeight() {
-        return weight;
-    }
-
-    public void setWeight(Weight weight) {
-        this.weight = weight;
     }
 
     public List<Project> getProjects() {

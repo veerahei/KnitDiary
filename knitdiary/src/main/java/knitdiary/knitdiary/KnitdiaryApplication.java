@@ -8,7 +8,6 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
-import aj.org.objectweb.asm.commons.ModuleHashesAttribute;
 import knitdiary.knitdiary.domain.Category;
 import knitdiary.knitdiary.domain.CategoryRepository;
 import knitdiary.knitdiary.domain.Pattern;
@@ -17,8 +16,6 @@ import knitdiary.knitdiary.domain.Project;
 import knitdiary.knitdiary.domain.ProjectRepository;
 import knitdiary.knitdiary.domain.Yarn;
 import knitdiary.knitdiary.domain.YarnRepository;
-import knitdiary.knitdiary.domain.Weight;
-import knitdiary.knitdiary.domain.WeightRepository;
 
 @SpringBootApplication
 public class KnitdiaryApplication {
@@ -30,7 +27,7 @@ public class KnitdiaryApplication {
 	// Add test data
 	@Bean
 	public CommandLineRunner knitDemo(ProjectRepository pRepository, CategoryRepository cRepository,
-			PatternRepository paRepository, WeightRepository wRepository, YarnRepository yRepository) {
+			PatternRepository paRepository, YarnRepository yRepository) {
 		return (args) -> {
 
 			Category category1 = new Category("Sweater");
@@ -45,11 +42,11 @@ public class KnitdiaryApplication {
 			paRepository.save(pattern1);
 			paRepository.save(pattern2);
 
-			Weight weight1 = new Weight("Lace");
-			wRepository.save(weight1);
+			// Weight weight1 = new Weight("Lace");
+			// wRepository.save(weight1);
 
-			Yarn yarn1 = new Yarn("Mohair", "Sandnes garn", "Light blue", weight1);
-			Yarn yarn2 = new Yarn("Novita Wool", "Novita", "Red", weight1);
+			Yarn yarn1 = new Yarn("Mohair", "Sandnes garn", "Light blue");
+			Yarn yarn2 = new Yarn("Novita Wool", "Novita", "Red");
 
 			yRepository.save(yarn1);
 			yRepository.save(yarn2);

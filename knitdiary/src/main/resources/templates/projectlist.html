@@ -27,13 +27,14 @@
             <td th:text="${project.needles}"></td>
             <td th:text="${project.image}"></td>
             <td th:text="${project.notes}"></td>
+
             <td th:each="yarn : ${project.projectYarns}">
                 <span th:text="${yarn.name} + ' (' + ${yarn.brand} + ', ' + ${yarn.color} + ')'"></span>
             </td>
-
-
         </tr>
     </table>
+
+    <a href="/addProject">Add project</a>
 </body>
 
 </html>

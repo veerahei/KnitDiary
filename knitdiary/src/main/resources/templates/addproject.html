@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Projects</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+
+<body>
+    <h1>Add new project</h1>
+    <div>
+        <form th:object="${project}" th:action="@{saveProject}" method="post">
+            <label for="projectName">Project name</label>
+            <input type="text" id="projectName" th:field="*{name}" />
+            <div style="clear: both; display: block; height: 10px;"></div>
+            <!-- Dropdown for patterns -->
+            <label for="pattern">Pattern</label>
+            <select id="pattern" th:field="*{pattern}" class="form-control">
+                <option th:each="pattern: ${patterns}" th:value="${pattern.patternId}" th:text="${pattern.name}">Select
+                </option>
+            </select>
+            <div style="clear: both; display: block; height: 10px;"></div>
+            <!-- Dropdown for categories -->
+            <label for="category">Category</label>
+            <select id="category" th:field="*{category}" class="form-control">
+                <option th:each="category: ${categories}" th:value=${category.categoryId} th:text="${category.name}">
+                </option>
+
+            </select>
+
+            <div style="clear: both; display: block; height: 10px;"></div>
+            <!-- Select yarn -->
+            <label for="projectYarns">Yarns</label>
+            <select id="projectYarns" th:field="*{projectYarns}" class="form-control">
+                <option th:each="yarn: ${yarns}" th:value=${yarn.yarnId} th:text="${yarn.brand}">
+                </option>
+            </select>
+
+            <div style="clear: both; display: block; height: 10px;"></div>
+            <!-- Or add new yarn -->
+            <!--<h3>Add new yarn</h3>
+            <label for="yarnName">Yarn name</label>
+            <input type="text" id="yarnName" th:field="*{projectYarns.name}">
+
+            <label for="yarnBrand">Brand</label>
+            <input type="text" id="yarnBrand" th:field="*{projectYarns.brand}">
+
+            <label for="yarnColor">Color</label>
+            <input type="text" id="yarnColor" th:field="*{projectYarns.color}">
+            <div style="clear: both; display: block; height: 10px;">
+            </div>
+-->
+            <!-- Add size-->
+            <label for="size">Size</label>
+            <input type="text" id="size" th:field="*{size}" />
+            <div style="clear: both; display: block; height: 10px;"></div>
+            <!-- Add needles-->
+            <label for="needles">Needles</label>
+            <input type="text" id="needles" th:field="*{needles}" />
+            <div style="clear: both; display: block; height: 10px;"></div>
+            <!-- Add image-->
+            <label for="Image">Image</label>
+            <input type="text" id="image" th:field="*{image}" />
+            <div style="clear: both; display: block; height: 10px;"></div>
+            <!-- Add notes-->
+            <label for="notes">Notes</label>
+            <input type="text" id="notes" th:field="*{notes}" />
+            <div style="clear: both; display: block; height: 10px;"></div>
+
+            <input type="submit" value="Save project" />
+        </form>
+
+
+    </div>
+</body>
+
+
+</html>

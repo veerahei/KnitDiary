@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -69,5 +70,20 @@ public class KnitDiaryController {
         pRepository.save(project); // Save the new project to the database
 
         return "redirect:projectList"; // Redirect to projectlist
+    }
+
+    @GetMapping("/edit/{id}")
+    public String editProject(@PathVariable("id") Long projectId, Model model) {
+        model.addAttribute("project", pRepository.findById(projectId));
+        model.addAttribute("patterns", paRepository.findAll());
+        model.addAttribute("categories", cRepository.findAll());
+        model.addAttribute("yarns", yRepository.findAll());
+        return "editProject";
+    }
+
+    @GetMapping("/delete/{id}")
+    public String deleteProject(@PathVariable("id") Long projectId, Model model) {
+        pRepository.deleteById(projectId);
+        return "redirect:/projectList";
     }
 }

@@ -31,6 +31,8 @@
             <td th:each="yarn : ${project.projectYarns}">
                 <span th:text="${yarn.name} + ' (' + ${yarn.brand} + ', ' + ${yarn.color} + ')'"></span>
             </td>
+            <td><a th:href="@{/delete/{id}(id=${project.projectId})}">Delete</a></td>
+            <td><a th:href="@{/edit/{id}(id=${project.projectId})}">Edit</a></td>
         </tr>
     </table>
 

@@ -11,7 +11,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
-
 @Configuration
 @EnableMethodSecurity(securedEnabled = true)
 public class WebSecurityConfig {
@@ -31,7 +30,7 @@ public class WebSecurityConfig {
                         .anyRequest().authenticated())
                 .headers(headers -> headers.frameOptions(frameOptions -> frameOptions.disable())) // for h2console
                 .formLogin(formlogin -> formlogin
-                        .defaultSuccessUrl("/projectList", true)
+                        .defaultSuccessUrl("/home", true)
                         .permitAll())
                 .logout(logout -> logout.permitAll())
                 .csrf(csrf -> csrf.disable()); // not for production, just for development

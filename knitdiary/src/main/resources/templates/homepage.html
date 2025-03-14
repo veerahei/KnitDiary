@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
-    xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <title>Server Programming</title>
@@ -13,10 +12,11 @@
     </form>
     <div><a th:href="@{/home}">Home page</a></div>
     <div><a th:href="@{/projectList}">Project list</a></div>
-    <h1>All knitting projects</h1>
+    <h1>Welcome <span sec:authentication="name"></span>!</h1>
+
+    <h2>My projects</h2>
     <table>
         <tr>
-            <th>Username</th>
             <th>Name</th>
             <th>Pattern</th>
             <th>Category</th>
@@ -26,8 +26,8 @@
             <th>Notes</th>
             <th>Yarns</th>
         </tr>
-        <tr th:each="project : ${projects}">
-            <td th:text="${project.appUser.username}"></td>
+        <tr th:each="project : ${usersProjects}">
+            <!--<td th:text="${project.appUser.username}"></td>-->
             <td th:text="${project.name}"></td>
             <td th:text="${project.pattern.name}"></td>
             <td th:text="${project.category.name}"></td>
@@ -39,15 +39,11 @@
             <td th:each="yarn : ${project.projectYarns}">
                 <span th:text="${yarn.name} + ' (' + ${yarn.brand} + ', ' + ${yarn.color} + ')'"></span>
             </td>
-            <td sec:authorize="hasAuthority('ADMIN')"><a
-                    th:href="@{/admin/delete/{id}(id=${project.projectId})}">Delete</a>
-            </td>
-            <td sec:authorize="hasAuthority('ADMIN')"><a th:href="@{admin/edit/{id}(id=${project.projectId})}">Edit</a>
-            </td>
+            <td><a th:href="@{/delete/{id}(id=${project.projectId})}">Delete</a></td>
+            <td><a th:href="@{/edit/{id}(id=${project.projectId})}">Edit</a></td>
         </tr>
     </table>
-
-    <!--<a href="/addProject">Add project</a> -->
+    <a href="/addProject">Add project</a>
 </body>
 
 </html>

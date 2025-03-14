@@ -7,9 +7,13 @@
 </head>
 
 <body>
-    <h1>Knitting projects</h1>
+    <form th:action="@{/logout}" method="post">
+        <input type="submit" value="Sign out" />
+    </form>
+    <h1>All knitting projects</h1>
     <table>
         <tr>
+            <!--<th>Username</th>-->
             <th>Name</th>
             <th>Pattern</th>
             <th>Category</th>
@@ -20,6 +24,7 @@
             <th>Yarns</th>
         </tr>
         <tr th:each="project : ${projects}">
+            <!--<td th:text="${project.appUser.username}"></td>-->
             <td th:text="${project.name}"></td>
             <td th:text="${project.pattern.name}"></td>
             <td th:text="${project.category.name}"></td>

@@ -12,7 +12,6 @@ import knitdiary.knitdiary.domain.CategoryRepository;
 import knitdiary.knitdiary.domain.PatternRepository;
 import knitdiary.knitdiary.domain.Project;
 import knitdiary.knitdiary.domain.ProjectRepository;
-import knitdiary.knitdiary.domain.Yarn;
 import knitdiary.knitdiary.domain.YarnRepository;
 
 @Controller

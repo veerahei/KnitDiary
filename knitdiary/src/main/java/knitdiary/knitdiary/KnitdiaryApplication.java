@@ -8,6 +8,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import knitdiary.knitdiary.domain.AppUser;
+import knitdiary.knitdiary.domain.AppUserRepository;
 import knitdiary.knitdiary.domain.Category;
 import knitdiary.knitdiary.domain.CategoryRepository;
 import knitdiary.knitdiary.domain.Pattern;
@@ -27,7 +29,7 @@ public class KnitdiaryApplication {
 	// Add test data
 	@Bean
 	public CommandLineRunner knitDemo(ProjectRepository pRepository, CategoryRepository cRepository,
-			PatternRepository paRepository, YarnRepository yRepository) {
+			PatternRepository paRepository, YarnRepository yRepository, AppUserRepository auRepository) {
 		return (args) -> {
 
 			Category category1 = new Category("Sweater");
@@ -54,11 +56,19 @@ public class KnitdiaryApplication {
 			List<Yarn> yarns = new ArrayList<>();
 			yarns.add(yarn1);
 
-			pRepository.save(new Project("My first sweater", null, pattern1, category1, yarns, "36", "4mm 80 cm", null,
+			// Create users
+			AppUser user1 = new AppUser("user", "$2a$10$Qe6osubeJbMgVFkdDkBYnOcnZheUKq7eCwvQhLQIZXcOIARB2fZra", "USER");
+			AppUser user2 = new AppUser("admin", "$2a$10$qV.EUjP6EVgzYx3lHCGD0.Ots.RjbOCaSF.fHjbiv2bm82dAe6iV6",
+					"ADMIN");
+
+			auRepository.save(user1);
+			auRepository.save(user2);
+
+			pRepository.save(new Project("My first sweater", user1, pattern1, category1, yarns, "36", "4mm 80 cm", null,
 					"I've just started my first sweater"));
 
 			pRepository.save(
-					new Project("White socks", null, pattern2, category2, yarns, "39", "3mm", null, "Basic socks"));
+					new Project("White socks", user2, pattern2, category2, yarns, "39", "3mm", null, "Basic socks"));
 
 		};
 	}

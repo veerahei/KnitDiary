@@ -45,8 +45,6 @@ public class Project {
 
     }
 
-   
-
     public Project(String name, AppUser appUser, Pattern pattern, Category category, List<Yarn> projectYarns,
             String size, String needles, String image, String notes) {
         this.name = name;
@@ -59,8 +57,6 @@ public class Project {
         this.image = image;
         this.notes = notes;
     }
-
-
 
     public Long getProjectId() {
         return projectId;

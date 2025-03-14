@@ -3,6 +3,7 @@ package knitdiary.knitdiary.domain;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -16,12 +17,17 @@ public class AppUser {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long userId;
 
+    @Column(nullable = false, unique = true)
+    private String username;
+
+    @Column(name = "password", nullable = false)
+    private String passwordHash;
+
+    @Column(nullable = false)
+    private String role;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "appUser")
     private List<Project> projects;
-
-    private String username;
-    private String passwordHash;
-    private String role;
 
     public AppUser() {
 

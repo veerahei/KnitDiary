@@ -13,7 +13,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import knitdiary.knitdiary.KnitdiaryApplication;
 import knitdiary.knitdiary.domain.AppUser;
 import knitdiary.knitdiary.domain.AppUserRepository;

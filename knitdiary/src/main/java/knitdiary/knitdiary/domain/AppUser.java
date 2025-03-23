@@ -2,6 +2,8 @@ package knitdiary.knitdiary.domain;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -26,6 +28,7 @@ public class AppUser {
     @Column(nullable = false)
     private String role;
 
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "appUser")
     private List<Project> projects;
 

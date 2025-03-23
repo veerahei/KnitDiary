@@ -4,6 +4,7 @@ import static org.springframework.security.web.util.matcher.AntPathRequestMatche
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -27,6 +28,11 @@ public class WebSecurityConfig {
                 authorize -> authorize
                         .requestMatchers(antMatcher("/css/**")).permitAll()
                         .requestMatchers(antMatcher("/h2-console/**")).permitAll()
+                        // rest api permitted for everyone for testing
+                        .requestMatchers(antMatcher("/projects/**")).permitAll() 
+                        .requestMatchers(HttpMethod.POST, "/projects").permitAll()
+                        .requestMatchers(HttpMethod.PUT, "/projects/**").permitAll()
+                        .requestMatchers(HttpMethod.DELETE, "/projects/**").permitAll()
                         .anyRequest().authenticated())
                 .headers(headers -> headers.frameOptions(frameOptions -> frameOptions.disable())) // for h2console
                 .formLogin(formlogin -> formlogin

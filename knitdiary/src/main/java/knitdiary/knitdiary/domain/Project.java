@@ -76,14 +76,6 @@ public class Project {
         this.name = name;
     }
 
-    public AppUser getUser() {
-        return appUser;
-    }
-
-    public void setUser(AppUser user) {
-        this.appUser = user;
-    }
-
     public Pattern getPattern() {
         return pattern;
     }

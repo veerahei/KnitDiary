@@ -2,6 +2,8 @@ package knitdiary.knitdiary.domain;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -15,6 +17,7 @@ public class Yarn {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long yarnId;
 
+    @JsonIgnore
     @ManyToMany(mappedBy = "projectYarns")
     private List<Project> projects;
 

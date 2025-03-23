@@ -10,6 +10,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
+import jakarta.validation.constraints.NotEmpty;
 
 @Entity
 public class Project {
@@ -18,6 +19,7 @@ public class Project {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long projectId;
 
+    @NotEmpty(message = "Project's name can't be empty")
     private String name;
 
     @ManyToOne

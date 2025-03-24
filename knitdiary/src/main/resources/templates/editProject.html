@@ -35,7 +35,23 @@
             <!-- Select yarn -->
             <label for="projectYarns">Yarns</label>
             <select id="projectYarns" th:field="*{projectYarns}" class="form-control">
-                <option th:each="yarn: ${yarns}" th:value=${yarn.yarnId} th:text="${yarn.brand}">
+                <option value="">-- Select yarn --</option>
+                <option th:each="yarn: ${yarns}" th:value=${yarn.yarnId}
+                    th:text="${yarn.brand + ', ' + yarn.name + ', ' + yarn.color}">
+                </option>
+            </select>
+            <!-- Select 2. yarn -->
+            <select id="projectYarns" th:field="*{projectYarns}" class="form-control">
+                <option value="">-- Select yarn --</option>
+                <option th:each="yarn: ${yarns}" th:value=${yarn.yarnId}
+                    th:text="${yarn.brand + ', ' + yarn.name + ', ' + yarn.color}">
+                </option>
+            </select>
+            <!-- Select 3. yarn -->
+            <select id="projectYarns" th:field="*{projectYarns}" class="form-control">
+                <option value="">-- Select yarn --</option>
+                <option th:each="yarn: ${yarns}" th:value=${yarn.yarnId}
+                    th:text="${yarn.brand + ', ' + yarn.name + ', ' + yarn.color}">
                 </option>
             </select>
             <div style="clear: both; display: block; height: 10px;"></div>

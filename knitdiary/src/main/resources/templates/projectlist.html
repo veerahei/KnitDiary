@@ -36,8 +36,10 @@
             <td th:text="${project.image}"></td>
             <td th:text="${project.notes}"></td>
 
-            <td th:each="yarn : ${project.projectYarns}">
-                <span th:text="${yarn.name} + ' (' + ${yarn.brand} + ', ' + ${yarn.color} + ')'"></span>
+            <td>
+                <span th:each="yarn : ${project.projectYarns}">
+                    <span th:text="${yarn.name} + ' (' + ${yarn.brand} + ', ' + ${yarn.color} + ')'"></span><br>
+                </span>
             </td>
             <td sec:authorize="hasAuthority('ADMIN')"><a
                     th:href="@{/admin/delete/{id}(id=${project.projectId})}">Delete</a>

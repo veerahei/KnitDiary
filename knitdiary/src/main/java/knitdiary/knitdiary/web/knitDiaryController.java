@@ -10,9 +10,13 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+
+import jakarta.validation.Valid;
 import knitdiary.knitdiary.KnitdiaryApplication;
 import knitdiary.knitdiary.domain.AppUser;
 import knitdiary.knitdiary.domain.AppUserRepository;
@@ -121,7 +125,8 @@ public class KnitDiaryController {
 
     // Save the new project
     @PostMapping("/saveProject")
-    public String saveProject(Project project) {
+    public String saveProject(@Valid @ModelAttribute("project") Project project, BindingResult bindingResult,
+            Model model) {
 
         // Get the current user
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -130,6 +135,14 @@ public class KnitDiaryController {
         AppUser currUser = auRepository.findByUsername(username);
         // Save the project for current user
         project.setAppUser(currUser);
+
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("project", project);
+            model.addAttribute("patterns", paRepository.findAll());
+            model.addAttribute("categories", cRepository.findAll());
+            model.addAttribute("yarns", yRepository.findAll());
+            return "addProject";
+        }
 
         pRepository.save(project); // Save the new project to the database
 

@@ -19,7 +19,7 @@ public class Project {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long projectId;
 
-    @NotEmpty(message = "Project's name can't be empty")
+    @NotEmpty(message = "Project's name can't be empty.")
     private String name;
 
     @ManyToOne

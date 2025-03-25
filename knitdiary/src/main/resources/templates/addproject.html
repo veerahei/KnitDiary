@@ -12,6 +12,7 @@
         <form th:object="${project}" th:action="@{saveProject}" method="post">
             <label for="projectName">Project name</label>
             <input type="text" id="projectName" th:field="*{name}" />
+            <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Error</div>
             <div style="clear: both; display: block; height: 10px;"></div>
             <!-- Dropdown for patterns -->
             <label for="pattern">Pattern</label>

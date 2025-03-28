@@ -35,13 +35,14 @@
             <td th:text="${project.needles}"></td>
             <td th:text="${project.notes}"></td>
 
-
-
+             <!--Show yarns-->
             <td>
                 <span th:each="yarn : ${project.projectYarns}">
                     <span th:text="${yarn.name} + ' (' + ${yarn.brand} + ', ' + ${yarn.color} + ')'"></span><br>
                 </span>
             </td>
+
+            <!--Show image-->
             <td>
                 <img th:src="@{/images/{id}(id=${project.projectId})}" style="max-width: 150px;">
             </td>

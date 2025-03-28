@@ -9,15 +9,15 @@
 <body>
     <h1>Edit project</h1>
     <div>
-        <form th:object="${project}" th:action="@{../admin/saveProject}" action="#" method="post"
+        <form th:object="${project}" th:action="@{/admin/saveProject}" action="#" method="post"
             enctype="multipart/form-data">
 
-            <label for="projectId"></label>
-            <input type="hidden" id="projectId" th:field="*{projectId}" readonly="readonly" />
+            <label for="projectId">Project id</label>
+            <input type="text" id="projectId" th:field="*{projectId}" readonly="readonly" />
             <div style="clear: both; display: block; height: 10px;"></div>
 
-            <label for="projectUser"></label>
-            <input type="hidden" id="projectUser" th:field="*{appUser}" readonly="readonly" />
+            <label for="projectUser">Project user</label>
+            <input type="text" id="projectUser" th:field="*{appUser.username}" readonly="readonly" />
             <div style="clear: both; display: block; height: 10px;"></div>
             <!-- Project name-->
             <label for="projectName">Project name</label>
@@ -38,10 +38,27 @@
                 </option>
             </select>
             <div style="clear: both; display: block; height: 10px;"></div>
-            <!-- Select yarn -->
-            <label for="projectYarns">Yarns</label>
-            <select id="projectYarns" th:field="*{projectYarns}" class="form-control">
-                <option th:each="yarn: ${yarns}" th:value=${yarn.yarnId} th:text="${yarn.brand}">
+
+            <!-- Select 1. yarn -->
+            <label for="projectYarns1">Yarns</label>
+            <select id="projectYarns1" th:field="*{projectYarns[0]}" class="form-control">
+                <option value="">-- Select yarn --</option>
+                <option th:each="yarn: ${yarns}" th:value=${yarn.yarnId}
+                    th:text="${yarn.brand + ', ' + yarn.name + ', ' + yarn.color}">
+                </option>
+            </select>
+            <!-- Select 2. yarn -->
+            <select id="projectYarns2" th:field="*{projectYarns[1]}" class="form-control">
+                <option value="">-- Select yarn --</option>
+                <option th:each="yarn: ${yarns}" th:value=${yarn.yarnId}
+                    th:text="${yarn.brand + ', ' + yarn.name + ', ' + yarn.color}">
+                </option>
+            </select>
+            <!-- Select 3. yarn -->
+            <select id="projectYarns3" th:field="*{projectYarns[2]}" class="form-control">
+                <option value="">-- Select yarn --</option>
+                <option th:each="yarn: ${yarns}" th:value=${yarn.yarnId}
+                    th:text="${yarn.brand + ', ' + yarn.name + ', ' + yarn.color}">
                 </option>
             </select>
             <div style="clear: both; display: block; height: 10px;"></div>

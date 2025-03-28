@@ -13,6 +13,8 @@
     </form>
     <div><a th:href="@{/home}">Home page</a></div>
     <div><a th:href="@{/projectList}">Project list</a></div>
+    <div sec:authorize="hasAuthority('ADMIN')"><a th:href="@{/userManagement}">User management</a></div>
+
     <h1>All knitting projects</h1>
     <table>
         <tr>

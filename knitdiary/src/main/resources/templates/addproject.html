@@ -9,7 +9,7 @@
 <body>
     <h1>Add new project</h1>
     <div>
-        <form th:object="${project}" th:action="@{saveProject}" method="post">
+        <form th:object="${project}" th:action="@{saveProject}" method="post" enctype="multipart/form-data">
             <label for="projectName">Project name</label>
             <input type="text" id="projectName" th:field="*{name}" />
             <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Error</div>
@@ -74,13 +74,15 @@
             <label for="needles">Needles</label>
             <input type="text" id="needles" th:field="*{needles}" />
             <div style="clear: both; display: block; height: 10px;"></div>
-            <!-- Add image-->
-            <label for="Image">Image</label>
-            <input type="text" id="image" th:field="*{image}" />
-            <div style="clear: both; display: block; height: 10px;"></div>
+
             <!-- Add notes-->
             <label for="notes">Notes</label>
             <input type="text" id="notes" th:field="*{notes}" />
+            <div style="clear: both; display: block; height: 10px;"></div>
+
+            <!-- Add image-->
+            <label for="Image">Image</label>
+            <input type="file" name="file" id="image" accept="image/png, image/jpeg" />
             <div style="clear: both; display: block; height: 10px;"></div>
 
             <input type="submit" value="Save project" />

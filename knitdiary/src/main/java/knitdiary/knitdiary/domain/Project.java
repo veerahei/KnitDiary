@@ -8,9 +8,11 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
+import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotEmpty;
+
 
 @Entity
 public class Project {
@@ -40,15 +42,17 @@ public class Project {
 
     private String size;
     private String needles;
-    private String image;
     private String notes;
+
+    @Lob
+    private byte[] imageData;
 
     public Project() {
 
     }
 
-    public Project(String name, AppUser appUser, Pattern pattern, Category category, List<Yarn> projectYarns,
-            String size, String needles, String image, String notes) {
+    public Project(@NotEmpty(message = "Project's name can't be empty.") String name, AppUser appUser, Pattern pattern,
+            Category category, List<Yarn> projectYarns, String size, String needles, byte[] imageData, String notes) {
         this.name = name;
         this.appUser = appUser;
         this.pattern = pattern;
@@ -56,7 +60,7 @@ public class Project {
         this.projectYarns = projectYarns;
         this.size = size;
         this.needles = needles;
-        this.image = image;
+        this.imageData = imageData;
         this.notes = notes;
     }
 
@@ -108,12 +112,12 @@ public class Project {
         this.needles = needles;
     }
 
-    public String getImage() {
-        return image;
+    public byte[] getImageData() {
+        return imageData;
     }
 
-    public void setImage(String image) {
-        this.image = image;
+    public void setImageData(byte[] imageData) {
+        this.imageData = imageData;
     }
 
     public String getNotes() {
@@ -143,7 +147,8 @@ public class Project {
     @Override
     public String toString() {
         return "Project [projectId=" + projectId + ", name=" + name + ", user=" + appUser + ", pattern=" + pattern
-                + ", category=" + category + ", size=" + size + ", needles=" + needles + ", image=" + image + ", notes="
+                + ", category=" + category + ", size=" + size + ", needles=" + needles + ", image=" + imageData
+                + ", notes="
                 + notes + "]";
     }
 

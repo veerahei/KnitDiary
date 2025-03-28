@@ -4,11 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import jakarta.validation.Valid;
 import knitdiary.knitdiary.domain.AppUser;
 import knitdiary.knitdiary.domain.AppUserRepository;
 
@@ -19,7 +21,6 @@ public class UserController {
     AppUserRepository auRepository;
 
     // Get list of users
-    // For admin only
     @GetMapping("/userManagement")
     @PreAuthorize("hasAuthority('ADMIN')")
     public String getUserManagement(Model model) {
@@ -42,7 +43,13 @@ public class UserController {
     // Save edited user
     @PostMapping("/saveUser")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public String saveUser(@ModelAttribute("user") AppUser user) {
+    public String saveUser(@Valid @ModelAttribute("user") AppUser user, BindingResult bindingResult, Model model) {
+
+        //Check validation
+        if(bindingResult.hasErrors()) {
+            model.addAttribute("user", user); 
+            return "edituser"; 
+        }
 
         // Set edited attributes to existing user
         AppUser existingUser = auRepository.findById(user.getUserId())

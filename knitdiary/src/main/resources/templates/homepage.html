@@ -12,6 +12,8 @@
     </form>
     <div><a th:href="@{/home}">Home page</a></div>
     <div><a th:href="@{/projectList}">Project list</a></div>
+    <div sec:authorize="hasAuthority('ADMIN')"><a th:href="@{/userManagement}">User management</a></div>
+
     <h1>Welcome <span sec:authentication="name"></span>!</h1>
 
     <h2>My projects</h2>
@@ -35,7 +37,7 @@
             <td th:text="${project.needles}"></td>
             <td th:text="${project.notes}"></td>
 
-             <!--Show yarns-->
+            <!--Show yarns-->
             <td>
                 <span th:each="yarn : ${project.projectYarns}">
                     <span th:text="${yarn.name} + ' (' + ${yarn.brand} + ', ' + ${yarn.color} + ')'"></span><br>

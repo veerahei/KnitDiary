@@ -1,9 +1,15 @@
 package knitdiary.knitdiary.web;
 
+import java.io.IOException;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -15,6 +21,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.server.ResponseStatusException;
 
 import jakarta.validation.Valid;
 import knitdiary.knitdiary.KnitdiaryApplication;
@@ -80,7 +89,20 @@ public class KnitDiaryController {
         return "projectlist";
     }
 
-    // Add a new project.
+    // Get image
+    @GetMapping(value = "/images/{imageId}")
+    public ResponseEntity<byte[]> downloadImage(@PathVariable Long imageId) {
+
+        byte[] image = pRepository.findById(imageId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND))
+                .getImageData();
+
+        return ResponseEntity.ok()
+                .contentType(MediaType.IMAGE_JPEG)
+                .body(image);
+    }
+
+    // Add a new project
     @GetMapping("/addProject")
     public String addProject(Model model) {
         // Function gives an empty model of a project for thymeleaf for user to fill it
@@ -102,36 +124,31 @@ public class KnitDiaryController {
         String username = auth.getName();
         AppUser currUser = auRepository.findByUsername(username);
 
-        // Get the broject by projectID sent in pathvariable
-        Optional<Project> optionalProject = pRepository.findById(projectId);
-        if (optionalProject.isPresent()) {
-            Project project = optionalProject.get();
+        // Get the project by projectID sent in pathvariable
+        Project project = pRepository.findById(projectId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 
-            // If projects user is the same that the current user
-            if (project.getAppUser().equals(currUser)) {
-                model.addAttribute("project", pRepository.findById(projectId));
-                model.addAttribute("patterns", paRepository.findAll());
-                model.addAttribute("categories", cRepository.findAll());
-                model.addAttribute("yarns", yRepository.findAll());
-                return "editProject";
-            }
-            return "redirect:/home";
+        // If projects user is the same that the current user
+        if (project.getAppUser().equals(currUser)) {
+            model.addAttribute("project", project);
+            model.addAttribute("patterns", paRepository.findAll());
+            model.addAttribute("categories", cRepository.findAll());
+            model.addAttribute("yarns", yRepository.findAll());
 
-        } else {
-            return "redirect:/home";
+            return "editProject";
         }
+        return "redirect:/home";
 
     }
 
     // Save the new project
-    @PostMapping("/saveProject")
+    @PostMapping(value = "/saveProject")
     public String saveProject(@Valid @ModelAttribute("project") Project project, BindingResult bindingResult,
-            Model model) {
+            Model model, @RequestPart("file") MultipartFile file) {
 
         // Get the current user
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String username = auth.getName();
-
         AppUser currUser = auRepository.findByUsername(username);
         // Save the project for current user
         project.setAppUser(currUser);
@@ -141,7 +158,23 @@ public class KnitDiaryController {
             model.addAttribute("patterns", paRepository.findAll());
             model.addAttribute("categories", cRepository.findAll());
             model.addAttribute("yarns", yRepository.findAll());
-            return "addProject";
+
+            // Check if the project is new or edited and return corresponding view
+            if (project.getProjectId() == null) {
+                return "addProject";
+            } else {
+                return "editProject";
+            }
+
+        }
+        // Save the image for the project
+        try {
+            project.setImageData(file.getBytes()); // Image's datatype is multipartfile, convert it to byte array to
+                                                   // save it in the db
+            pRepository.save(project);
+        } catch (IOException e) {
+            System.out.println("Error in saving the image");
+            e.printStackTrace();
         }
 
         pRepository.save(project); // Save the new project to the database
@@ -187,9 +220,12 @@ public class KnitDiaryController {
     @GetMapping("admin/edit/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
     public String aEditProject(@PathVariable("id") Long projectId, Model model) {
-        // Get the project's user
 
-        model.addAttribute("project", pRepository.findById(projectId));
+        // Get the project by projectID sent in pathvariable
+        Project project = pRepository.findById(projectId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+
+        model.addAttribute("project", project);
         model.addAttribute("patterns", paRepository.findAll());
         model.addAttribute("categories", cRepository.findAll());
         model.addAttribute("yarns", yRepository.findAll());
@@ -200,7 +236,9 @@ public class KnitDiaryController {
     // Save the new project
     @PostMapping("/admin/saveProject")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public String aSaveProject(Project project) {
+    public String aSaveProject(@Valid @ModelAttribute("project") Project project, BindingResult bindingResult,
+            Model model,
+            @RequestPart("file") MultipartFile file) {
 
         // Get the original project
         Project existingProject = pRepository.findById(project.getProjectId())
@@ -209,6 +247,29 @@ public class KnitDiaryController {
         // Set the original owner ot the project to the modified project
         project.setAppUser(existingProject.getAppUser());
 
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("project", project);
+            model.addAttribute("patterns", paRepository.findAll());
+            model.addAttribute("categories", cRepository.findAll());
+            model.addAttribute("yarns", yRepository.findAll());
+
+            if (project.getAppUser() != null) {
+                return "adminEditProject";
+            } else {
+                return "addProject";
+            }
+
+        }
+
+        // Save the image for the project
+        try {
+            project.setImageData(file.getBytes()); // Image's datatype is multipartfile, convert it to byte array to
+                                                   // save it in the db
+            pRepository.save(project);
+        } catch (IOException e) {
+            System.out.println("Error in saving the image");
+            e.printStackTrace();
+        }
         // Save the edited project
         pRepository.save(project);
 

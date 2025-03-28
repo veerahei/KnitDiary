@@ -22,9 +22,9 @@
             <th>Category</th>
             <th>Size</th>
             <th>Needles</th>
-            <th>Image</th>
             <th>Notes</th>
             <th>Yarns</th>
+            <th>Image</th>
         </tr>
         <tr th:each="project : ${projects}">
             <td th:text="${project.appUser.username}"></td>
@@ -33,15 +33,18 @@
             <td th:text="${project.category.name}"></td>
             <td th:text="${project.size}"></td>
             <td th:text="${project.needles}"></td>
-            <td th:text="${project.image}"></td>
             <td th:text="${project.notes}"></td>
-
             <td>
                 <span th:each="yarn : ${project.projectYarns}">
                     <span th:text="${yarn.name} + ' (' + ${yarn.brand} + ', ' + ${yarn.color} + ')'"></span><br>
                 </span>
             </td>
-            <td sec:authorize="hasAuthority('ADMIN')"><a
+
+            <td>
+                <img th:src="@{/images/{id}(id=${project.projectId})}" style="max-width: 150px;">
+            </td>
+
+            <td sec:authorize=" hasAuthority('ADMIN')"><a
                     th:href="@{/admin/delete/{id}(id=${project.projectId})}">Delete</a>
             </td>
             <td sec:authorize="hasAuthority('ADMIN')"><a th:href="@{admin/edit/{id}(id=${project.projectId})}">Edit</a>

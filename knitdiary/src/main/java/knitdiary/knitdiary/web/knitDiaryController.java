@@ -125,12 +125,12 @@ public class KnitDiaryController {
         AppUser currUser = auRepository.findByUsername(username);
 
         // Get the project by projectID sent in pathvariable
-        Project project = pRepository.findById(projectId)
+        Project editedProject = pRepository.findById(projectId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 
         // If projects user is the same that the current user
-        if (project.getAppUser().equals(currUser)) {
-            model.addAttribute("project", project);
+        if (editedProject.getAppUser().equals(currUser)) {
+            model.addAttribute("editedProject", editedProject);
             model.addAttribute("patterns", paRepository.findAll());
             model.addAttribute("categories", cRepository.findAll());
             model.addAttribute("yarns", yRepository.findAll());
@@ -139,6 +139,39 @@ public class KnitDiaryController {
         }
         return "redirect:/home";
 
+    }
+
+    // Save edited project
+    @PostMapping("/saveEditedProject")
+    public String saveEditedProject(@Valid @ModelAttribute("editedProject") Project project,
+            BindingResult bindingResult, Model model, @RequestPart("file") MultipartFile file) {
+
+        // Get the current user
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String username = auth.getName();
+        AppUser currUser = auRepository.findByUsername(username);
+        // Save the project for current user
+        project.setAppUser(currUser);
+
+        // save image for project
+        try {
+            project.setImageData(file.getBytes());
+        } catch (Exception e) {
+            System.out.println("Error saving the image");
+        }
+        // Check validation
+        if (bindingResult.hasErrors()) {
+
+            model.addAttribute("project", project);
+            model.addAttribute("patterns", paRepository.findAll());
+            model.addAttribute("categories", cRepository.findAll());
+            model.addAttribute("yarns", yRepository.findAll());
+
+            return "editProject";
+        }
+
+        pRepository.save(project);
+        return "redirect:home"; // Redirect to projectlist;
     }
 
     // Save the new project
@@ -153,28 +186,22 @@ public class KnitDiaryController {
         // Save the project for current user
         project.setAppUser(currUser);
 
+        // save image for project
+        try {
+            project.setImageData(file.getBytes());
+        } catch (Exception e) {
+            System.out.println("Error saving the image");
+        }
+
+        // Check validation
         if (bindingResult.hasErrors()) {
+
             model.addAttribute("project", project);
             model.addAttribute("patterns", paRepository.findAll());
             model.addAttribute("categories", cRepository.findAll());
             model.addAttribute("yarns", yRepository.findAll());
 
-            // Check if the project is new or edited and return corresponding view
-            if (project.getProjectId() == null) {
-                return "addProject";
-            } else {
-                return "editProject";
-            }
-
-        }
-        // Save the image for the project
-        try {
-            project.setImageData(file.getBytes()); // Image's datatype is multipartfile, convert it to byte array to
-                                                   // save it in the db
-            pRepository.save(project);
-        } catch (IOException e) {
-            System.out.println("Error in saving the image");
-            e.printStackTrace();
+            return "addProject";
         }
 
         pRepository.save(project); // Save the new project to the database
@@ -217,6 +244,7 @@ public class KnitDiaryController {
         return "redirect:/projectList";
     }
 
+    // Admin edit project
     @GetMapping("admin/edit/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
     public String aEditProject(@PathVariable("id") Long projectId, Model model) {
@@ -229,7 +257,7 @@ public class KnitDiaryController {
         model.addAttribute("patterns", paRepository.findAll());
         model.addAttribute("categories", cRepository.findAll());
         model.addAttribute("yarns", yRepository.findAll());
-        return "editProject";
+        return "admineditproject";
 
     }
 

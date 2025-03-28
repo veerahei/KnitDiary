@@ -32,21 +32,21 @@
             <div style="clear: both; display: block; height: 10px;"></div>
             <!-- Select 1. yarn -->
             <label for="projectYarns">Yarns</label>
-            <select id="projectYarns" th:field="*{projectYarns}" class="form-control">
+            <select id="projectYarns" th:field="*{projectYarns[0]}" class="form-control">
                 <option value="">-- Select yarn --</option>
                 <option th:each="yarn: ${yarns}" th:value=${yarn.yarnId}
                     th:text="${yarn.brand + ', ' + yarn.name + ', ' + yarn.color}">
                 </option>
             </select>
             <!-- Select 2. yarn -->
-            <select id="projectYarns" th:field="*{projectYarns}" class="form-control">
+            <select id="projectYarns" th:field="*{projectYarns[1]}" class="form-control">
                 <option value="">-- Select yarn --</option>
                 <option th:each="yarn: ${yarns}" th:value=${yarn.yarnId}
                     th:text="${yarn.brand + ', ' + yarn.name + ', ' + yarn.color}">
                 </option>
             </select>
             <!-- Select 3. yarn -->
-            <select id="projectYarns" th:field="*{projectYarns}" class="form-control">
+            <select id="projectYarns" th:field="*{projectYarns[2]}" class="form-control">
                 <option value="">-- Select yarn --</option>
                 <option th:each="yarn: ${yarns}" th:value=${yarn.yarnId}
                     th:text="${yarn.brand + ', ' + yarn.name + ', ' + yarn.color}">
@@ -79,6 +79,7 @@
             <label for="notes">Notes</label>
             <input type="text" id="notes" th:field="*{notes}" />
             <div style="clear: both; display: block; height: 10px;"></div>
+
 
             <!-- Add image-->
             <label for="Image">Image</label>

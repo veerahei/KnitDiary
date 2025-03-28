@@ -9,10 +9,12 @@
 <body>
     <h1>Edit user</h1>
     <form th:object="${user}" th:action="@{/saveUser}" method="post">
-        
-        <input type="hidden" th:field="*{userId}"/>
+
+        <input type="hidden" th:field="*{userId}" />
         <label for="username">Username</label>
+
         <input type="text" th:field="*{username}"></input>
+        <div th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Error</div>
         <div style="clear: both; display: block; height: 10px;"></div>
 
         <label for="role">Role</label>

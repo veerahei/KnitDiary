@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Server Programming</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+
+<body>
+    <h1>Edit project</h1>
+    <div>
+        <form th:object="${editedProject}" th:action="@{../saveEditedProject}" action="#" method="post"
+            enctype="multipart/form-data">
+            <!-- Project id-->
+            <label for="projectId"></label>
+            <input type="text" id="projectId" th:field="*{projectId}" readonly="readonly" />
+            <div style="clear: both; display: block; height: 10px;"></div>
+            <!-- Project name-->
+            <label for="projectName">Project name</label>
+            <input type="text" id="projectName" th:field="*{name}" />
+            <td th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Error</td>
+            <div style="clear: both; display: block; height: 10px;"></div>
+            <!-- Dropdown for patterns -->
+            <label for="pattern">Pattern</label>
+            <select id="pattern" th:field="*{pattern}" class="form-control">
+                <option th:each="pattern: ${patterns}" th:value="${pattern.patternId}" th:text="${pattern.name}">
+                </option>
+            </select>
+            <div style="clear: both; display: block; height: 10px;"></div>
+            <!-- Dropdown for categories -->
+            <label for="category">Category</label>
+            <select id="category" th:field="*{category}" class="form-control">
+                <option th:each="category: ${categories}" th:value=${category.categoryId} th:text="${category.name}">
+                </option>
+            </select>
+            <div style="clear: both; display: block; height: 10px;"></div>
+            <!-- Select 1. yarn -->
+            <label for="projectYarns1">Yarns</label>
+            <select id="projectYarns1" th:field="*{projectYarns[0]}" class="form-control">
+                <option value="">-- Select yarn --</option>
+                <option th:each="yarn: ${yarns}" th:value=${yarn.yarnId}
+                    th:text="${yarn.brand + ', ' + yarn.name + ', ' + yarn.color}">
+                </option>
+            </select>
+            <!-- Select 2. yarn -->
+            <select id="projectYarns2" th:field="*{projectYarns[1]}" class="form-control">
+                <option value="">-- Select yarn --</option>
+                <option th:each="yarn: ${yarns}" th:value=${yarn.yarnId}
+                    th:text="${yarn.brand + ', ' + yarn.name + ', ' + yarn.color}">
+                </option>
+            </select>
+            <!-- Select 3. yarn -->
+            <select id="projectYarns3" th:field="*{projectYarns[2]}" class="form-control">
+                <option value="">-- Select yarn --</option>
+                <option th:each="yarn: ${yarns}" th:value=${yarn.yarnId}
+                    th:text="${yarn.brand + ', ' + yarn.name + ', ' + yarn.color}">
+                </option>
+            </select>
+            <div style="clear: both; display: block; height: 10px;"></div>
+            <!-- Add size-->
+            <label for="size">Size</label>
+            <input type="text" id="size" th:field="*{size}" />
+            <div style="clear: both; display: block; height: 10px;"></div>
+            <!-- Add needles-->
+            <label for="needles">Needles</label>
+            <input type="text" id="needles" th:field="*{needles}" />
+            <div style="clear: both; display: block; height: 10px;"></div>
+
+            <!-- Add image-->
+            <label for="Image">Image</label>
+            <input type="file" name="file" id="image" accept="image/png, image/jpeg" />
+            <div style="clear: both; display: block; height: 10px;"></div>
+            <!-- Add notes-->
+            <label for="notes">Notes</label>
+            <input type="text" id="notes" th:field="*{notes}" />
+            <div style="clear: both; display: block; height: 10px;"></div>
+            <input type="submit" value="Save project"></input>
+        </form>
+    </div>
+</body>
+
+</html>

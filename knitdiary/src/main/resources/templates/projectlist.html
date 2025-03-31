@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+    xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+
+<head>
+    <title>Server Programming</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+
+<body>
+    <form th:action="@{/logout}" method="post">
+        <input type="submit" value="Sign out" />
+    </form>
+    <div><a th:href="@{/home}">Home page</a></div>
+    <div><a th:href="@{/projectList}">Project list</a></div>
+    <div sec:authorize="hasAuthority('ADMIN')"><a th:href="@{/userManagement}">User management</a></div>
+
+    <h1>All knitting projects</h1>
+    <table>
+        <tr>
+            <th>Username</th>
+            <th>Name</th>
+            <th>Pattern</th>
+            <th>Category</th>
+            <th>Size</th>
+            <th>Needles</th>
+            <th>Notes</th>
+            <th>Yarns</th>
+            <th>Image</th>
+        </tr>
+        <tr th:each="project : ${projects}">
+            <td th:text="${project.appUser.username}"></td>
+            <td th:text="${project.name}"></td>
+            <td th:text="${project.pattern.name}"></td>
+            <td th:text="${project.category.name}"></td>
+            <td th:text="${project.size}"></td>
+            <td th:text="${project.needles}"></td>
+            <td th:text="${project.notes}"></td>
+            <td>
+                <span th:each="yarn : ${project.projectYarns}">
+                    <span th:text="${yarn.name} + ' (' + ${yarn.brand} + ', ' + ${yarn.color} + ')'"></span><br>
+                </span>
+            </td>
+
+            <td>
+                <img th:src="@{/images/{id}(id=${project.projectId})}" style="max-width: 150px;">
+            </td>
+
+            <td sec:authorize=" hasAuthority('ADMIN')"><a
+                    th:href="@{/admin/delete/{id}(id=${project.projectId})}">Delete</a>
+            </td>
+            <td sec:authorize="hasAuthority('ADMIN')"><a th:href="@{admin/edit/{id}(id=${project.projectId})}">Edit</a>
+            </td>
+        </tr>
+    </table>
+
+    <!--<a href="/addProject">Add project</a> -->
+</body>
+
+</html>

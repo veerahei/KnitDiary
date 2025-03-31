@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Server Programming</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+
+<body>
+    <h1>Edit user</h1>
+    <form th:object="${user}" th:action="@{/saveUser}" method="post">
+
+        <input type="hidden" th:field="*{userId}" />
+        <label for="username">Username</label>
+
+        <input type="text" th:field="*{username}"></input>
+        <div th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Error</div>
+        <div style="clear: both; display: block; height: 10px;"></div>
+
+        <label for="role">Role</label>
+        <select th:field="*{role}" class="form-control">
+            <option value="" disabled selected>--Select role--</option>
+            <option value="USER">USER</option>
+            <option value="ADMIN">ADMIN</option>
+        </select>
+        <div style="clear: both; display: block; height: 10px;"></div>
+
+        <input type="submit" value="Save user" />
+    </form>
+
+</body>
+
+</html>

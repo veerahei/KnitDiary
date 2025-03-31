@@ -45,6 +45,7 @@ public class KnitDiaryController {
     private final SecurityFilterChain configure;
 
     // Inject repositories
+    // Test comment
     @Autowired
     private ProjectRepository pRepository;
 

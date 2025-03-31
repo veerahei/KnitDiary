@@ -34,7 +34,7 @@ import knitdiary.knitdiary.domain.ProjectRepository;
 import knitdiary.knitdiary.domain.YarnRepository;
 
 @Controller
-public class KnitDiaryController {
+public class knitDiaryController {
 
     private final UserDetailServiceImpl userDetailServiceImpl;
 
@@ -61,7 +61,7 @@ public class KnitDiaryController {
     @Autowired
     private AppUserRepository auRepository;
 
-    KnitDiaryController(SecurityFilterChain configure, CommandLineRunner knitDemo,
+    knitDiaryController(SecurityFilterChain configure, CommandLineRunner knitDemo,
             KnitdiaryApplication knitdiaryApplication, UserDetailServiceImpl userDetailServiceImpl) {
         this.configure = configure;
         this.knitDemo = knitDemo;

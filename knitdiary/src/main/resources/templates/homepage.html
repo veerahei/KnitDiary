@@ -46,8 +46,14 @@
 
             <!--Show image-->
             <td>
-                <img th:src="@{/images/{id}(id=${project.projectId})}" style="max-width: 150px;">
+                <th:block th:if="${project.imageData != null and project.imageData.length > 0}">
+                    <img th:src="@{/images/{id}(id=${project.projectId})}" style="max-width: 150px;">
+                </th:block>
+                <th:block th:if="${project.imageData == null or project.imageData.length == 0}">
+                    No image added yet
+                </th:block>
             </td>
+            
             <td><a th:href="@{/delete/{id}(id=${project.projectId})}">Delete</a></td>
             <td><a th:href="@{/edit/{id}(id=${project.projectId})}">Edit</a></td>
         </tr>

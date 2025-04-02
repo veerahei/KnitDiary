@@ -70,11 +70,6 @@
             <label for="needles">Needles</label>
             <input type="text" id="needles" th:field="*{needles}" />
             <div style="clear: both; display: block; height: 10px;"></div>
-            <!-- Current image-->
-            <div th:if="${project.imageData != null}">
-                <label>Current Image:</label><br>
-                <img th:src="@{/images/{id}(id=${project.projectId})}" alt="Project Image" style="max-width: 100px;" />
-            </div>
             <!-- Add image-->
             <label for="Image">Image</label>
             <input type="file" name="file" id="image" accept="image/png, image/jpeg" />

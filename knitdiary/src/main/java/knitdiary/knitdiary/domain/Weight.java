@@ -1,4 +1,6 @@
 /*
+ * --- NOT IN USE ---
+ * 
  * package knitdiary.knitdiary.domain;
  * 
  * import java.util.List;

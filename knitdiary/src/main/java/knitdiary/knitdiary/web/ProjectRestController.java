@@ -1,7 +1,6 @@
 package knitdiary.knitdiary.web;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -60,8 +59,12 @@ public class ProjectRestController {
 
     // Delete project
     @DeleteMapping("/projects/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteCar(@PathVariable("id") Long projectId) {
-        pRepository.deleteById(projectId);
+    public ResponseEntity<Void> deleteCar(@PathVariable("id") Long projectId) {
+        if (!pRepository.existsById(projectId)) {
+            return ResponseEntity.notFound().build();
+        } else {
+            pRepository.deleteById(projectId);
+            return ResponseEntity.noContent().build();
+        }
     }
 }

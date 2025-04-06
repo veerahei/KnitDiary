@@ -8,19 +8,16 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+
+import knitdiary.knitdiary.web.UserDetailServiceImpl;
 
 @Configuration
 @EnableMethodSecurity(securedEnabled = true)
 public class WebSecurityConfig {
-
-    private UserDetailsService userDetailsService;
-
-    public WebSecurityConfig(UserDetailsService userDetailsService) {
-        this.userDetailsService = userDetailsService;
-    }
+    @Autowired
+    private UserDetailServiceImpl userDetailsService;
 
     @Bean
     public SecurityFilterChain configure(HttpSecurity http) throws Exception {
@@ -29,7 +26,6 @@ public class WebSecurityConfig {
                         .requestMatchers(antMatcher("/")).permitAll()
                         .requestMatchers(antMatcher("/css/**")).permitAll()
                         .requestMatchers(antMatcher("/h2-console/**")).permitAll()
-                        // rest api permitted for everyone for testing
                         .requestMatchers(HttpMethod.POST, "/projects").permitAll()
                         .requestMatchers(antMatcher("/projects/**")).permitAll()
                         .anyRequest().authenticated())

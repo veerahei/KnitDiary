@@ -4,14 +4,13 @@ import java.io.IOException;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.CommandLineRunner;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -24,7 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
 import jakarta.validation.Valid;
-import knitdiary.knitdiary.KnitdiaryApplication;
+
 import knitdiary.knitdiary.domain.AppUser;
 import knitdiary.knitdiary.domain.AppUserRepository;
 import knitdiary.knitdiary.domain.CategoryRepository;
@@ -36,16 +35,8 @@ import knitdiary.knitdiary.domain.YarnRepository;
 @Controller
 public class knitDiaryController {
 
-    private final UserDetailServiceImpl userDetailServiceImpl;
-
-    private final KnitdiaryApplication knitdiaryApplication;
-
-    private final CommandLineRunner knitDemo;
-
-    private final SecurityFilterChain configure;
-
     // Inject repositories
-    // Test comment
+
     @Autowired
     private ProjectRepository pRepository;
 
@@ -60,14 +51,6 @@ public class knitDiaryController {
 
     @Autowired
     private AppUserRepository auRepository;
-
-    knitDiaryController(SecurityFilterChain configure, CommandLineRunner knitDemo,
-            KnitdiaryApplication knitdiaryApplication, UserDetailServiceImpl userDetailServiceImpl) {
-        this.configure = configure;
-        this.knitDemo = knitDemo;
-        this.knitdiaryApplication = knitdiaryApplication;
-        this.userDetailServiceImpl = userDetailServiceImpl;
-    }
 
     // Homepage with logged in user's own projects and crud functionalities
     @GetMapping("/home")
@@ -260,7 +243,7 @@ public class knitDiaryController {
 
     }
 
-    // Save the new project
+    // Save new or edited project
     @PostMapping("/admin/saveProject")
     @PreAuthorize("hasAuthority('ADMIN')")
     public String aSaveProject(@Valid @ModelAttribute("project") Project project, BindingResult bindingResult,
@@ -271,7 +254,7 @@ public class knitDiaryController {
         Project existingProject = pRepository.findById(project.getProjectId())
                 .orElseThrow(() -> new IllegalArgumentException("Invalid project ID: " + project.getProjectId()));
 
-        // Set the original owner ot the project to the modified project
+        // Set the original owner of the project to the modified project
         project.setAppUser(existingProject.getAppUser());
 
         if (bindingResult.hasErrors()) {

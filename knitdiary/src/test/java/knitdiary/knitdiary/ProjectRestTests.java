@@ -24,11 +24,13 @@ public class ProjectRestTests {
         mockMvc = MockMvcBuilders.webAppContextSetup(webAppContext).build();
     }
 
+    // Test get projects
     @Test
     public void statusOk() throws Exception {
         mockMvc.perform(get("/projects")).andExpect(status().isOk());
     }
 
+    // Test data is in json form
     @Test
     public void responseTypeApplicationJson() throws Exception {
         mockMvc.perform(get("/projects"))

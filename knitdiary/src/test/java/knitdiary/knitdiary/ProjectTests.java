@@ -51,7 +51,7 @@ public class ProjectTests {
         Optional<Project> project = pRepository.findById((long) 1);
         assertThat(project).isPresent();
         assertThat(project.get().getAppUser().getUserId()).isEqualTo(1);
-        assertThat(project.get().getCategory().getName()).isEqualTo("Sweater");
+        assertThat(project.get().getCategory().getName()).isEqualTo("Sweaters");
     }
 
     // Test delete functionality

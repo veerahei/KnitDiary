@@ -35,8 +35,6 @@ public class AppUserTests {
         AppUser user = new AppUser("TEST", "test", "TEST");
         auRepository.save(user);
 
-        auRepository.save(user);
-
         AppUser updatedUser = auRepository.findByUsername("TEST");
         assertThat(updatedUser.getRole()).isEqualTo("TEST");
     }

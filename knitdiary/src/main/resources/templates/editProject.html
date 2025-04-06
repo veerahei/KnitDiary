@@ -13,7 +13,7 @@
             enctype="multipart/form-data">
             <!-- Project id-->
             <label for="projectId"></label>
-            <input type="text" id="projectId" th:field="*{projectId}" readonly="readonly" />
+            <input type="hidden" id="projectId" th:field="*{projectId}" readonly="readonly" />
             <div style="clear: both; display: block; height: 10px;"></div>
             <!-- Project name-->
             <label for="projectName">Project name</label>

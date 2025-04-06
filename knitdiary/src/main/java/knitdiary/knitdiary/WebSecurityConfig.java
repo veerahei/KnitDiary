@@ -26,13 +26,12 @@ public class WebSecurityConfig {
     public SecurityFilterChain configure(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(
                 authorize -> authorize
+                        .requestMatchers(antMatcher("/")).permitAll()
                         .requestMatchers(antMatcher("/css/**")).permitAll()
                         .requestMatchers(antMatcher("/h2-console/**")).permitAll()
                         // rest api permitted for everyone for testing
-                        .requestMatchers(antMatcher("/projects/**")).permitAll() 
                         .requestMatchers(HttpMethod.POST, "/projects").permitAll()
-                        .requestMatchers(HttpMethod.PUT, "/projects/**").permitAll()
-                        .requestMatchers(HttpMethod.DELETE, "/projects/**").permitAll()
+                        .requestMatchers(antMatcher("/projects/**")).permitAll()
                         .anyRequest().authenticated())
                 .headers(headers -> headers.frameOptions(frameOptions -> frameOptions.disable())) // for h2console
                 .formLogin(formlogin -> formlogin

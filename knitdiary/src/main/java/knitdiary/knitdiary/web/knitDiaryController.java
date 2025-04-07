@@ -168,7 +168,7 @@ public class knitDiaryController {
         // Save the project for current user
         project.setAppUser(currUser);
 
-        // save image for project
+        // save image for project in byte[]-form
         try {
             project.setImageData(file.getBytes());
         } catch (Exception e) {
@@ -243,7 +243,7 @@ public class knitDiaryController {
 
     }
 
-    // Save new or edited project
+    // Save edited project
     @PostMapping("/admin/saveProject")
     @PreAuthorize("hasAuthority('ADMIN')")
     public String aSaveProject(@Valid @ModelAttribute("project") Project project, BindingResult bindingResult,
